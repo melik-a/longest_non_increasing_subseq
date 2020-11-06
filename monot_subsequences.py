@@ -46,17 +46,18 @@ def len_longest_incr_subseq_n2(sequence):
 
 def longest_non_incr_subseq_n2(sequence):
     #length of the longest non increasing subsequence ending in the element with index i.
-    sub_len = [1] * len(sequence)
-    #sub_seq = [-1] * len(sequence)
+    sequence_len = len(sequence)
+    sub_len = [1] * sequence_len
+    #sub_seq = [-1] * sequence_len
     max_subseq_len = 0
-    for i in range(len(sequence)):
-        for j in range(i):
-            if (sequence[j] >= sequence[i]) and (sub_len[j] + 1 > sub_len[i]):
-                sub_len[i] = sub_len[j] + 1
+    for i in range(sequence_len - 1):
+        for j in range(i + 1, sequence_len):
+            if (sequence[i] >= sequence[j]) and (sub_len[j] <= sub_len[i] + 1):
+                sub_len[j] = sub_len[i] + 1
                 #sub_seq[i] = j
-        if sub_len[i] > max_subseq_len:
-            max_subseq_len = sub_len[i]
-            pos = i
+            if sub_len[j] > max_subseq_len:
+                max_subseq_len = sub_len[j]
+                pos = j
     
     path = []
     print(f"pos = {pos}")
@@ -75,7 +76,7 @@ def longest_non_incr_subseq_n2(sequence):
 
     print(f"sub_seq = {path}")
     print("sub_len =", sub_len)
-    return max(sub_len)
+    return max(sub_len),path
 
 
 def longest_incr_subseq_n2(sequence):
@@ -91,7 +92,7 @@ def main():
     B = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
     C = [7, 11, 9, 7, 11, 15, 5, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11, 0]
     D = [0, 0, 0, 0, 0, 0]
-    E = [11, 17, 15, 9, 7, 19, 14, 10, 9, 19, 20, 21, 0]
+    E = [11, 17, 15, 9, 7, 19, 14, 10, 19, 20, 21, 0]
     #print("len_of_max_non_incr_sub_seq", max_non_incr_sub_seq(A))
     print(f"longest_non_incr_subseq_n2 = {longest_non_incr_subseq_n2(E)}")
     #print("longest_incr_subseq_n2",len_longest_incr_subseq_n2(B))
