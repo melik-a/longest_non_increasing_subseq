@@ -51,6 +51,9 @@ def len_longest_incr_subseq_n2(sequence):
 
 
 def longest_non_incr_subseq_n2(sequence):
+    """
+        comment this solution
+    """
     sequence_len = len(sequence)
     max_subseq_len = 0
     pos  = 0 
@@ -81,6 +84,9 @@ def longest_non_incr_subseq_n2(sequence):
 
 
 def longest_incr_subseq_n2(sequence):
+    """
+        comment this solution
+    """
     sequence_len = len(sequence)
     max_subseq_len = 0
     pos = 0 
@@ -109,9 +115,58 @@ def longest_incr_subseq_n2(sequence):
     return len(path)
 
 
-def len_longest_non_incr_subseq_log(sequence):
-    pass
+def binary_search(path_arr, searched_x, length):
+    left = 0
+    right = length
+    mid = 0
+    while left <= right:
+        mid = (left + right) // 2
+        if path_arr[mid] < searched_x:
+            left = mid + 1
+        elif path_arr[mid] > searched_x:
+            right = mid - 1
+        else:
+            return mid
+    return -1
 
+
+def longest_non_incr_subseq_nlogn(sequence):
+    """
+        comment this solution
+    """
+    sequence_len = len(sequence)
+    max_subseq_len = 0
+    pos = 0 
+    #last element of subsequence with lenght i.
+    end_of_subseq = [1] * sequence_len
+    trace = [-1] * sequence_len
+    
+    for i in range(sequence_len):
+        
+        if path[]
+        
+        for j in range(i):
+            if (sequence[i] > sequence[j]) and (sub_len[j] + 1 > sub_len[i]):
+                sub_len[i] = sub_len[j] + 1
+                trace[i] = j
+        if sub_len[i] > max_subseq_len:
+            max_subseq_len = sub_len[i]
+            pos = i
+    
+    path = []
+    while pos != -1:
+        path.append(sequence[pos])
+        pos = trace[pos]
+    path.reverse()
+    
+    print(f"sequence = {sequence}\nsub_len = {sub_len}\npos = {pos}")
+    print(f"sub_seq = {path}")
+
+    return len(path)
+
+
+def longest_incr_subseq_nlogn(sequence):
+    pass
 
 def test_max_non_incr_sub_seq():
     A = [7, 11, 9, 0, 11, 15, 0, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11]
