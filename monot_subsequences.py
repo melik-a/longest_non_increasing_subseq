@@ -115,54 +115,56 @@ def longest_incr_subseq_n2(sequence):
     return len(path)
 
 
-def binary_search(path_arr, searched_x, length):
+def binary_search(path_arr, searched_x):
     left = 0
-    right = length
-    mid = 0
-    while left <= right:
+    right = len(path_arr)
+    while left < right:
         mid = (left + right) // 2
-        if path_arr[mid] < searched_x:
-            left = mid + 1
-        elif path_arr[mid] > searched_x:
-            right = mid - 1
+        if path_arr[mid] > searched_x:
+            right = mid
         else:
-            return mid
-    return -1
+            left = mid + 1
+            
+    return left
 
 
 def longest_non_incr_subseq_nlogn(sequence):
     """
         comment this solution
     """
+    sequence.reverse()
+    import math
+    import bisect
     sequence_len = len(sequence)
     max_subseq_len = 0
-    pos = 0 
-    #last element of subsequence with lenght i.
-    end_of_subseq = [1] * sequence_len
-    trace = [-1] * sequence_len
-    
+    #smollest last element of subsequence with lenght i.
+    traces = [-1]
+    end_of_subseq = []
     for i in range(sequence_len):
-        
-        if path[]
-        
-        for j in range(i):
-            if (sequence[i] > sequence[j]) and (sub_len[j] + 1 > sub_len[i]):
-                sub_len[i] = sub_len[j] + 1
-                trace[i] = j
-        if sub_len[i] > max_subseq_len:
-            max_subseq_len = sub_len[i]
-            pos = i
-    
-    path = []
-    while pos != -1:
-        path.append(sequence[pos])
-        pos = trace[pos]
-    path.reverse()
-    
-    print(f"sequence = {sequence}\nsub_len = {sub_len}\npos = {pos}")
-    print(f"sub_seq = {path}")
+        if len(end_of_subseq) != 0:
+            j = binary_search([sequence[k] for k in end_of_subseq], sequence[i])
+            if j < len(end_of_subseq):
+                end_of_subseq[j] = i
+            else:
+                end_of_subseq.append(i)
 
-    return len(path)
+            traces.append(end_of_subseq[j-1] if j > 0 else -1)
+        else:
+            end_of_subseq.append(i)
+       # print(f"j:{j} seq:{sequence[i]} i:{i} end_of_subseq:{end_of_subseq}") 
+        
+
+    def trace(i):
+        if i is not -1:
+            yield from trace(traces[i])
+            yield i
+    indices = list(trace(end_of_subseq[-1]))
+    indices.reverse()
+    print(f"result indices:{indices}")
+    print(f"result :{[sequence[i] for i in indices]} ")
+    """ for i in end_of_subseq:
+        print(f"i:{i} - {sequence[i]}") """
+    return len(end_of_subseq)
 
 
 def longest_incr_subseq_nlogn(sequence):
@@ -200,7 +202,7 @@ def main():
     E = [11, 17, 15, 9, 7, 19, 14, 10, 19, 20, 21, 0]
     tests = [A, B, C, D, E]
     for i in tests:
-        print(longest_incr_subseq_n2(i))
+        print(longest_non_incr_subseq_nlogn(i))
         print("-------------------------------------------------------")
 
 
