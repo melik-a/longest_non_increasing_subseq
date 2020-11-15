@@ -5,7 +5,7 @@
 """
 
 #task 
-def max_non_incr_sub_seq(sequence):
+def longest_continuous_non_incr_subseq(sequence):
     max_subseq_len = 1
     curr_subseq_len = 1
     subseq_end_ind = -1
@@ -19,12 +19,32 @@ def max_non_incr_sub_seq(sequence):
         else:
             curr_subseq_len = 1
     
-    if subseq_end_ind > 0:
+    """ if subseq_end_ind > 0:
         print("sub_seq_int",subseq_end_ind)
-        print(sequence[subseq_end_ind - max_subseq_len + 1  :  subseq_end_ind + 1])
+        print(sequence[subseq_end_ind - max_subseq_len + 1  :  subseq_end_ind + 1]) """
     
-    return max_subseq_len
+    return sequence[subseq_end_ind - max_subseq_len + 1  :  subseq_end_ind + 1]
 
+
+def longest_continuous_incr_subseq(sequence):
+    max_subseq_len = 1
+    curr_subseq_len = 1
+    subseq_end_ind = -1
+    for i in range(len(sequence) - 1):
+        if sequence[i] < sequence[i + 1]:
+            curr_subseq_len += 1
+            if curr_subseq_len > max_subseq_len:
+                max_subseq_len = curr_subseq_len
+                #if next el in seq more than current then save next el index as last
+                subseq_end_ind = i + 1
+        else:
+            curr_subseq_len = 1
+    
+    """ if subseq_end_ind > 0:
+        print("sub_seq_int",subseq_end_ind)
+        print(sequence[subseq_end_ind - max_subseq_len + 1  :  subseq_end_ind + 1]) """
+    
+    return sequence[subseq_end_ind - max_subseq_len + 1  :  subseq_end_ind + 1]
 
 #classic explanation of longest non incr subseq - n^2
 def len_longest_non_incr_subseq_n2(sequence):
@@ -34,7 +54,6 @@ def len_longest_non_incr_subseq_n2(sequence):
         for j in range(i + 1, len(sequence)):
             if (sequence[i] >= sequence[j]) and (sub_len[j] <= sub_len[i]):
                 sub_len[j] = sub_len[i] + 1
-    print(sub_len)
     return max(sub_len)
 
 
@@ -46,7 +65,6 @@ def len_longest_incr_subseq_n2(sequence):
         for j in range(i + 1, len(sequence)):
             if (sequence[i] < sequence[j]) and (sub_len[j] <= sub_len[i]):
                 sub_len[j] = sub_len[i] + 1
-    print(sub_len)
     return max(sub_len)
 
 
@@ -59,13 +77,13 @@ def longest_non_incr_subseq_n2(sequence):
     pos  = 0 
     #length of the longest non increasing subsequence ending in the element with index i.
     sub_len = [1] * sequence_len
-    trace = [-1] * sequence_len
+    traces = [-1] * sequence_len
 
     for i in range(sequence_len):
         for j in range(i):
             if (sequence[i] <= sequence[j]) and (sub_len[j] + 1 > sub_len[i]):
                 sub_len[i] = sub_len[j] + 1
-                trace[i] = j
+                traces[i] = j
         if sub_len[i] > max_subseq_len:
             max_subseq_len = sub_len[i]
             pos = i
@@ -73,14 +91,11 @@ def longest_non_incr_subseq_n2(sequence):
     path = []
     while pos != -1:
         path.append(sequence[pos])
-        pos = trace[pos]
+        pos = traces[pos]
 
     path.reverse()
 
-    print(f"sequence = {sequence}\nsub_len = {sub_len}\npos = {pos}")
-    print(f"sub_seq = {path}")
-    
-    return max(sub_len)
+    return path
 
 
 def longest_incr_subseq_n2(sequence):
@@ -108,11 +123,8 @@ def longest_incr_subseq_n2(sequence):
         path.append(sequence[pos])
         pos = trace[pos]
     path.reverse()
-    
-    print(f"sequence = {sequence}\nsub_len = {sub_len}\npos = {pos}")
-    print(f"sub_seq = {path}")
 
-    return len(path)
+    return path
 
 
 def binary_search(path_arr, searched_x):
@@ -120,10 +132,10 @@ def binary_search(path_arr, searched_x):
     right = len(path_arr)
     while left < right:
         mid = (left + right) // 2
-        if path_arr[mid] > searched_x:
-            right = mid
-        else:
+        if path_arr[mid] <= searched_x:
             left = mid + 1
+        else:
+            right = mid
             
     return left
 
@@ -132,14 +144,42 @@ def longest_non_incr_subseq_nlogn(sequence):
     """
         comment this solution
     """
-    sequence.reverse()
-    import math
-    import bisect
+    #sequence.reverse()
     sequence_len = len(sequence)
-    max_subseq_len = 0
     #smollest last element of subsequence with lenght i.
     traces = [-1]
     end_of_subseq = []
+    for i in range(sequence_len - 1, -1, -1):
+        if len(end_of_subseq) != 0:
+            j = binary_search([sequence[k] for k in end_of_subseq], sequence[i])
+            if j < len(end_of_subseq):
+                end_of_subseq[j] = i
+            else:
+                end_of_subseq.append(i)
+            
+            traces.append(end_of_subseq[j-1] if j > 0 else -1)
+        else:
+            end_of_subseq.append(i)
+    
+    
+    traces.reverse()
+    subseq = []
+    el = end_of_subseq[-1]
+    while el != -1:
+        subseq.append(sequence[el])
+        el = traces[el]
+
+    return subseq
+
+
+def longest_non_decr_subseq_nlogn(sequence):
+    """ 
+        comment this solution 
+    """
+    sequence_len = len(sequence)
+    #smollest last element of subsequence with lenght i.
+    end_of_subseq = []
+    traces = [-1]
     for i in range(sequence_len):
         if len(end_of_subseq) != 0:
             j = binary_search([sequence[k] for k in end_of_subseq], sequence[i])
@@ -147,28 +187,20 @@ def longest_non_incr_subseq_nlogn(sequence):
                 end_of_subseq[j] = i
             else:
                 end_of_subseq.append(i)
-
+            
             traces.append(end_of_subseq[j-1] if j > 0 else -1)
         else:
             end_of_subseq.append(i)
-       # print(f"j:{j} seq:{sequence[i]} i:{i} end_of_subseq:{end_of_subseq}") 
-        
+    
+    #traces.reverse()
+    subseq = []
+    el = end_of_subseq[-1]
+    while el != -1:
+        subseq.append(sequence[el])
+        el = traces[el]
 
-    def trace(i):
-        if i is not -1:
-            yield from trace(traces[i])
-            yield i
-    indices = list(trace(end_of_subseq[-1]))
-    indices.reverse()
-    print(f"result indices:{indices}")
-    print(f"result :{[sequence[i] for i in indices]} ")
-    """ for i in end_of_subseq:
-        print(f"i:{i} - {sequence[i]}") """
-    return len(end_of_subseq)
+    return subseq[::-1]
 
-
-def longest_incr_subseq_nlogn(sequence):
-    pass
 
 def test_max_non_incr_sub_seq():
     A = [7, 11, 9, 0, 11, 15, 0, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11]
@@ -202,14 +234,32 @@ def main():
     E = [11, 17, 15, 9, 7, 19, 14, 10, 19, 20, 21, 0]
     tests = [A, B, C, D, E]
     for i in tests:
-        print(longest_non_incr_subseq_nlogn(i))
-        print("-------------------------------------------------------")
+        print (f"test_seq = {i}\n")
+        print(f"-------------------------------------------------------------------")
+        
+        print(f"len_longest_non_incr_subseq_n2 = {len_longest_non_incr_subseq_n2(i)}\n")
+        
+        print(f"longest_continuous_non_incr_subseq = {longest_continuous_non_incr_subseq(i)}\n")
+        print(f"longest_non_incr_subseq_n2 = {longest_non_incr_subseq_n2(i)}\n")
+        print(f"longest_non_incr_subseq_nlogn = {longest_non_incr_subseq_nlogn(i)}\n")
+        
+        print(f"-------------------------------------------------------------------\n")
+        
+        print(f"len_longest_incr_subseq_n2 = {len_longest_incr_subseq_n2(i)}\n")
 
+        print(f"longest_continuous_incr_subseq = {longest_continuous_incr_subseq(i)}\n")
+        print(f"longest_incr_subseq_n2 = {longest_incr_subseq_n2(i)}\n")
+        print(f"longest_non_decr_subseq_nlogn = {longest_non_decr_subseq_nlogn(i)}\n")
 
-
-    #print("len_of_max_non_incr_sub_seq", max_non_incr_sub_seq(A))
-    #print(f"longest_non_incr_subseq_n2 = {longest_non_incr_subseq_n2(E)}")
-    #print("longest_incr_subseq_n2",len_longest_incr_subseq_n2(B))
+        print(f"###################################################################")
+        print(f"###################################################################")
+        print(f"###################################################################\n")
+    
+    print(f"A = {A}")
+    print(f"B = {B}")
+    print(f"C = {C}")
+    print(f"D = {D}")
+    print(f"E = {E}\n")
 
 
 if __name__ == "__main__":
