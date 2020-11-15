@@ -202,15 +202,18 @@ def longest_non_decr_subseq_nlogn(sequence):
     return subseq[::-1]
 
 
-def test_max_non_incr_sub_seq():
-    A = [7, 11, 9, 0, 11, 15, 0, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11]
-    B = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
-    C = [7, 11, 9, 7, 11, 15, 5, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11, 0]
-    D = [0, 0, 0, 0, 0, 0, 0, 0]
-    E = [11, 17, 15, 9, 7, 19, 14, 10, 19, 20, 21, 0]
-    tests = [A, B, C, D, E]
-    for i in tests:
-        print(max_non_incr_sub_seq(i))
+def test_longest_continuous_non_incr_subseq(test_l):
+    A = [11, 9, 0]
+    B = [8, 4]
+    C = [11, 9, 7]
+    D = [0, 0, 0, 0, 0, 0]
+    E = [17, 15, 9, 7]
+    answers = [A, B, C, D, E]
+    test_answ = zip(test_l, answers)
+    for test, answ in test_answ :
+        current_answ = longest_continuous_non_incr_subseq(test)
+        assert  current_answ == answ, f"incorrect answer on {test}\nexpected:{answ}, but given {current_answ}"
+
 
 def tests():
     """ testing all task functions:
@@ -223,7 +226,24 @@ def tests():
             7) longest_incr_subseq_nlogn()
             8) ...
     """
-    pass
+
+    A = [7, 11, 9, 0, 11, 15, 0, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11]
+    B = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
+    C = [7, 11, 9, 7, 11, 15, 5, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11, 0]
+    D = [0, 0, 0, 0, 0, 0]
+    E = [11, 17, 15, 9, 7, 19, 14, 10, 19, 20, 21, 0]
+    
+    print("testing sets:")
+    print(f"\t\tA = {A}")
+    print(f"\t\tB = {B}")
+    print(f"\t\tC = {C}")
+    print(f"\t\tD = {D}")
+    print(f"\t\tE = {E}\n")
+
+    test_list = [A, B, C, D, E]
+    test_longest_continuous_non_incr_subseq(test_list)
+    
+
 
 
 def main():
@@ -232,8 +252,8 @@ def main():
     C = [7, 11, 9, 7, 11, 15, 5, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11, 0]
     D = [0, 0, 0, 0, 0, 0]
     E = [11, 17, 15, 9, 7, 19, 14, 10, 19, 20, 21, 0]
-    tests = [A, B, C, D, E]
-    for i in tests:
+    test_set = [A, B, C, D, E]
+    for i in test_set:
         print (f"test_seq = {i}\n")
         print(f"-------------------------------------------------------------------")
         
@@ -260,7 +280,9 @@ def main():
     print(f"C = {C}")
     print(f"D = {D}")
     print(f"E = {E}\n")
+    tests()
 
 
 if __name__ == "__main__":
     main()
+
