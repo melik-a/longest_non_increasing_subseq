@@ -1,6 +1,6 @@
 # longest_subseq
 initial task is
-!(https://github.com/melik-a/longest_non_increasing_subseq/task.png)
+![](https://github.com/melik-a/longest_non_increasing_subseq/blob/master/task.png)
 
 solution of initial task is to find in a sequence Longest Continuous Non-Increasing Subsequence.
 programm includes function to find:
