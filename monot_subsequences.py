@@ -4,6 +4,7 @@
         3) add n * logarithmic algorithms for all subtasks
 """
 
+
 #task 
 def longest_continuous_non_incr_subseq(sequence):
     max_subseq_len = 1
@@ -46,6 +47,7 @@ def longest_continuous_incr_subseq(sequence):
     
     return sequence[subseq_end_ind - max_subseq_len + 1  :  subseq_end_ind + 1]
 
+
 #classic explanation of longest non incr subseq - n^2
 def len_longest_non_incr_subseq_n2(sequence):
     #length of the longest non increasing subsequence ending in the element with index i.
@@ -68,7 +70,7 @@ def len_longest_incr_subseq_n2(sequence):
     return max(sub_len)
 
 
-def longest_non_incr_subseq_n2(sequence):
+def longest_decr_subseq_n2(sequence):
     """
         comment this solution
     """
@@ -81,7 +83,7 @@ def longest_non_incr_subseq_n2(sequence):
 
     for i in range(sequence_len):
         for j in range(i):
-            if (sequence[i] <= sequence[j]) and (sub_len[j] + 1 > sub_len[i]):
+            if (sequence[i] < sequence[j]) and (sub_len[j] + 1 > sub_len[i]):
                 sub_len[i] = sub_len[j] + 1
                 traces[i] = j
         if sub_len[i] > max_subseq_len:
@@ -202,50 +204,6 @@ def longest_non_decr_subseq_nlogn(sequence):
     return subseq[::-1]
 
 
-def test_longest_continuous_non_incr_subseq(test_l):
-    A = [11, 9, 0]
-    B = [8, 4]
-    C = [11, 9, 7]
-    D = [0, 0, 0, 0, 0, 0]
-    E = [17, 15, 9, 7]
-    answers = [A, B, C, D, E]
-    test_answ = zip(test_l, answers)
-    for test, answ in test_answ :
-        current_answ = longest_continuous_non_incr_subseq(test)
-        assert  current_answ == answ, f"incorrect answer on {test}\nexpected:{answ}, but given {current_answ}"
-
-
-def tests():
-    """ testing all task functions:
-            1) max_non_incr_sub_seq()
-            2) len_longest_non_incr_subseq_n2()
-            3) len_longest_incrt_subseq_n2()
-            4) longest_non_incr_subseq_n2()
-            5) longest_incr_subseq_n2()
-            6) longest_non_incr_subseq_nlogn()
-            7) longest_incr_subseq_nlogn()
-            8) ...
-    """
-
-    A = [7, 11, 9, 0, 11, 15, 0, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11]
-    B = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
-    C = [7, 11, 9, 7, 11, 15, 5, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11, 0]
-    D = [0, 0, 0, 0, 0, 0]
-    E = [11, 17, 15, 9, 7, 19, 14, 10, 19, 20, 21, 0]
-    
-    print("testing sets:")
-    print(f"\t\tA = {A}")
-    print(f"\t\tB = {B}")
-    print(f"\t\tC = {C}")
-    print(f"\t\tD = {D}")
-    print(f"\t\tE = {E}\n")
-
-    test_list = [A, B, C, D, E]
-    test_longest_continuous_non_incr_subseq(test_list)
-    
-
-
-
 def main():
     A = [7, 11, 9, 0, 11, 15, 0, 18, 2, 14, 16, 1, 5, 12, 14, 0, 10, 11]
     B = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
@@ -260,7 +218,7 @@ def main():
         print(f"len_longest_non_incr_subseq_n2 = {len_longest_non_incr_subseq_n2(i)}\n")
         
         print(f"longest_continuous_non_incr_subseq = {longest_continuous_non_incr_subseq(i)}\n")
-        print(f"longest_non_incr_subseq_n2 = {longest_non_incr_subseq_n2(i)}\n")
+        print(f"longest_decr_subseq_n2 = {longest_decr_subseq_n2(i)}\n")
         print(f"longest_non_incr_subseq_nlogn = {longest_non_incr_subseq_nlogn(i)}\n")
         
         print(f"-------------------------------------------------------------------\n")
@@ -280,7 +238,6 @@ def main():
     print(f"C = {C}")
     print(f"D = {D}")
     print(f"E = {E}\n")
-    tests()
 
 
 if __name__ == "__main__":
