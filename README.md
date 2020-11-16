@@ -13,3 +13,5 @@ the programm also finds in a sequence:
   - Longest Non-Decreasing Subsequence(LNDS).
   - Longest Increasing Subsequence(LIS).
   - Longest Decreasing Subsequence(LDS).
+
+to find subsequences are used different algorithms.
