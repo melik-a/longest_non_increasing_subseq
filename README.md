@@ -15,3 +15,7 @@ the programm also finds in a sequence:
   - Longest Decreasing Subsequence(LDS).
 
 to find subsequences are used different algorithms.
+
+program execution:
+![execution](/execution.png "exec")
+
